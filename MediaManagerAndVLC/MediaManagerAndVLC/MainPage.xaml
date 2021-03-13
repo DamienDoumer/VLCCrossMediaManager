@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MediaManagerAndVLC.MainPage"
+             xmlns:local="clr-namespace:MediaManagerAndVLC">
+
+
+        <Grid RowDefinitions="2*,*">
+        <Grid RowDefinitions="*,Auto,Auto"
+                  Grid.Row="0">
+            <Image />
+            <Label Text="Media 1"
+                       Grid.Row="1"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+            <Label HorizontalOptions="Center"
+                       Grid.Row="2"
+                       Text="Media Description"
+                       VerticalOptions="Center">
+            </Label>
+        </Grid>
+        <Grid Grid.Row="1"
+                  RowDefinitions="Auto,Auto,Auto">
+
+            <Grid ColumnDefinitions="Auto,*,Auto">
+                <Label Text="Total Played"
+                       x:Name="TotalPlayedLabel"/>
+                <Slider Maximum="100" Grid.Column="1"
+                        DragCompleted="SeekSlider_DragCompleted"
+                            x:Name="SeekSlider"
+                            MaximumTrackColor="LightGray"
+                            MinimumTrackColor="SkyBlue"/>
+                <Label Grid.Column="2" Text="Duration" x:Name="DurationLabel"/>
+            </Grid>
+
+            <StackLayout Grid.Row="1">
+                <Button Text="Playlist"
+                            x:Name="PlayListButton"
+                            Clicked="PlayListButton_Clicked"/>
+                <Button Text="Mute"
+                            x:Name="MuteButton"
+                            Clicked="MuteButton_Clicked">
+                </Button>
+            </StackLayout>
+
+            <Grid ColumnDefinitions="*,*,*,*,*"
+                      Grid.Row="2">
+                <Button Text="Prev" x:Name="PreviousTrackButton"
+                        Clicked="PreviousTrackButton_Clicked"/>
+                <Button Text="back10" Grid.Column="1"
+                            x:Name="MoveBackButton"
+                            Clicked="MoveBackButton_Clicked"/>
+                <Button Text="Play" Grid.Column="2"
+                            x:Name="PlayPauseButton"
+                            Clicked="PlayPauseButton_Clicked">
+                </Button>
+                <Button Text="forw10" Grid.Column="3"
+                            x:Name="MoveForwardButton"
+                            Clicked="MoveForwardButton_Clicked"/>
+                <Button Text="Nxt Chap" Grid.Column="4"
+                            x:Name="NextTrackButton"
+                            Clicked="NextTrackButton_Clicked"/>
+            </Grid>
+        </Grid>
+        <ActivityIndicator x:Name="IsBusyIndicator" Grid.RowSpan="3"/>
+    </Grid>
+
+</ContentPage>
