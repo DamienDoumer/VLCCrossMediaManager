@@ -40,5 +40,10 @@
     <string>FontAwesome5Regular.otf</string>
     <string>FontAwesome5Solid.otf</string>
   </array>
+  <key>UIBackgroundModes</key>
+  <array>
+    <string>audio</string>
+    <string>fetch</string>
+  </array>
 </dict>
 </plist>
