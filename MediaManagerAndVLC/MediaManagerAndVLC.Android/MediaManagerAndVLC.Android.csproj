@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v11.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -88,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MediaManagerAndVLC\MediaManagerAndVLC.csproj">
-      <Project>{BADC4865-87AE-4BD2-B4B2-D35F1B581225}</Project>
+      <Project>{C31AA7E5-669B-4DC7-9C04-C0DE20B1417D}</Project>
       <Name>MediaManagerAndVLC</Name>
     </ProjectReference>
   </ItemGroup>

@@ -14,7 +14,6 @@ namespace MediaManagerAndVLC
     public partial class MainPage : ContentPage
     {
         private IMediaManager _mediaManager;
-
         private List<string> _mediaItems = new List<string>
         {
             "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
@@ -23,17 +22,27 @@ namespace MediaManagerAndVLC
 
         public MainPage(IMediaManager mediaManager)
         {
+            _mediaManager = mediaManager;
             InitializeComponent();
-            mediaManager.Play(_mediaItems);
         }
 
         protected override void OnAppearing()
         {
             _mediaManager.PositionChanged += _mediaManager_PositionChanged; ;
             _mediaManager.MediaItemFailed += _mediaManager_MediaItemFailed; ;
-            _mediaManager.MediaItemFinished += _mediaManager_MediaItemFinished; ;
-            _mediaManager.MediaItemChanged += _mediaManager_MediaItemChanged; ;
+            _mediaManager.MediaItemFinished += _mediaManager_MediaItemFinished;
+            _mediaManager.MediaItemChanged += _mediaManager_MediaItemChanged;
+            _mediaManager.Play(_mediaItems);
             base.OnAppearing();
+        }
+
+        protected override void OnDisappearing()
+        {
+            _mediaManager.PositionChanged -= _mediaManager_PositionChanged; ;
+            _mediaManager.MediaItemFailed -= _mediaManager_MediaItemFailed; ;
+            _mediaManager.MediaItemFinished -= _mediaManager_MediaItemFinished; ;
+            _mediaManager.MediaItemChanged -= _mediaManager_MediaItemChanged; ;
+            base.OnDisappearing();
         }
 
         private void _mediaManager_MediaItemChanged(object sender, MediaManager.Media.MediaItemEventArgs e)
