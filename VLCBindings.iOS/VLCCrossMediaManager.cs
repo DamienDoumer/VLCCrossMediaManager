@@ -26,7 +26,7 @@ namespace VLCBindings.iOS
                 return ret;
             }
         }
-
+        
 
         private static IMediaManager CreateMediaManager()
         {
