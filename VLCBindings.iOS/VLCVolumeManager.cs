@@ -1,6 +1,13 @@
-﻿using MediaManager.Volume;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace MediaManagerAndVLC.iOS.VLCMediaManager
+using Foundation;
+using MediaManager.Volume;
+using UIKit;
+
+namespace VLCBindings.iOS
 {
     public class VLCVolumeManager : VolumeManagerBase, IVolumeManager
     {

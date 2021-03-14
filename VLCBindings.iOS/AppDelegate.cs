@@ -4,10 +4,11 @@ using System.Linq;
 
 using Foundation;
 using LibVLCSharp.Forms.Shared;
-using MediaManagerAndVLC.iOS.VLCMediaManager;
+using MediaManager.Library;
 using UIKit;
+using Xamarin.Forms;
 
-namespace MediaManagerAndVLC.iOS
+namespace VLCBindings.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the 
     // User Interface of the application, as well as listening (and optionally responding) to 
@@ -28,6 +29,19 @@ namespace MediaManagerAndVLC.iOS
             VLCCrossMediaManager.Current.Init();
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App(VLCCrossMediaManager.Current));
+
+            //VLCCrossMediaManager.Current.PositionChanged += Current_PositionChanged;
+            ////play
+            //MessagingCenter.Instance.Subscribe<object, bool>(this, "PlayerMessage", (s, v) =>
+            //{
+            //    Device.BeginInvokeOnMainThread(() =>
+            //    {
+            //        if (v)
+            //            VLCCrossMediaManager.Current.Play(new MediaItem("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"));
+            //        else
+            //            VLCCrossMediaManager.Current.Pause();
+            //    });
+            //});
 
             return base.FinishedLaunching(app, options);
         }

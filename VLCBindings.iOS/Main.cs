@@ -5,7 +5,7 @@ using System.Linq;
 using Foundation;
 using UIKit;
 
-namespace MediaManagerAndVLC.iOS
+namespace VLCBindings.iOS
 {
     public class Application
     {

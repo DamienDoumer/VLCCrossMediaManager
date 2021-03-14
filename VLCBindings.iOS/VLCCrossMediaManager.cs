@@ -1,12 +1,19 @@
 ﻿using System;
-using MediaManager;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
-namespace MediaManagerAndVLC.iOS.VLCMediaManager
+using Foundation;
+using MediaManager;
+using UIKit;
+
+namespace VLCBindings.iOS
 {
     public static class VLCCrossMediaManager
     {
         private static Lazy<IMediaManager> implementation = new Lazy<IMediaManager>(() => CreateMediaManager(), System.Threading.LazyThreadSafetyMode.PublicationOnly);
         public static VLCiOSMediaManagerImplementation VLCiOS => (VLCiOSMediaManagerImplementation)Current;
+
         public static IMediaManager Current
         {
             get
@@ -19,6 +26,7 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
                 return ret;
             }
         }
+
 
         private static IMediaManager CreateMediaManager()
         {

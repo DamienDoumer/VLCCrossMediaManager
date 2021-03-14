@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using Foundation;
 using MediaManager;
 using MediaManager.Notifications;
 using MediaPlayer;
+using UIKit;
 
-namespace MediaManagerAndVLC.iOS.VLCMediaManager
+namespace VLCBindings.iOS
 {
     public class VLCiOSNotificationManager : NotificationManagerBase
     {

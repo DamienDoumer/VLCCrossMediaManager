@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using AVFoundation;
+using Foundation;
 using LibVLCSharp.Shared;
 using MediaManager.Library;
 using MediaManager.Player;
@@ -11,10 +14,11 @@ using UIKit;
 using Xamarin.Forms;
 using IVideoView = MediaManager.Video.IVideoView;
 
-namespace MediaManagerAndVLC.iOS.VLCMediaManager
+namespace VLCBindings.iOS
 {
     public class VLCiOSMediaPlayer : MediaPlayerBase, IMediaPlayer<LibVLCSharp.Shared.MediaPlayer>
     {
+        readonly LibVLC _libVLC;
         public override IVideoView VideoView { get; set; }
         public VLCiOSMediaManagerImplementation MediaManager => VLCCrossMediaManager.VLCiOS;
 
@@ -33,13 +37,12 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
 
         public VLCiOSMediaPlayer()
         {
+            _libVLC = new LibVLC();
         }
-
 
         protected virtual void Initialize()
         {
-            var libVLC = new LibVLC(enableDebugLogs: true);
-            Player = new LibVLCSharp.Shared.MediaPlayer(libVLC);
+            Player = new LibVLCSharp.Shared.MediaPlayer(_libVLC);
             //Note: Implement this so that when the user switchs away from your app to an app like "Camera, Or audio recording app, that records media", and iOS interuptions
             //Will be handled safely
             AVAudioSession.Notifications.ObserveInterruption(ToneInterruptionListener);
@@ -65,6 +68,7 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
                     break;
             }
         }
+
 
         public override void UpdateVideoAspect(VideoAspectMode videoAspectMode)
         {
@@ -99,8 +103,7 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
 
         protected override void Dispose(bool disposing)
         {
-            Player.Dispose();
-            base.Dispose();
+            MediaManager.DettachPlayerEvents();
         }
 
         public override void UpdateVideoPlaceholder(object value)
@@ -114,39 +117,13 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
             return Task.CompletedTask;
         }
 
-        public override async Task Play(IMediaItem mediaItem)
+        public override Task Play(IMediaItem mediaItem)
         {
             InvokeBeforePlaying(this, new MediaPlayerEventArgs(mediaItem, this));
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                var stream = await GetStreamFromUrl(mediaItem.MediaUri, MediaManager.RequestHeaders);
-                var mediaInput = new StreamMediaInput(stream);
-                var libVLC = new LibVLC(enableDebugLogs: true);
-                var media = new Media(libVLC, mediaInput);
-                Player.Play(media);
-            });
+            Player.Play(new Media(_libVLC, new Uri(mediaItem.MediaUri)));
             //Player = new LibVLCSharp.Shared.MediaPlayer(new Media);
             InvokeAfterPlaying(this, new MediaPlayerEventArgs(mediaItem, this));
-        }
-
-        private async Task<Stream> GetStreamFromUrl(string url, Dictionary<string,string> headers)
-        {
-            byte[] data;
-
-            using (var client = new System.Net.Http.HttpClient())
-            {
-                if (headers != null)
-                {
-                    foreach (var header in headers)
-                    {
-                        client.DefaultRequestHeaders.Add(header.Key, header.Value);
-                    }
-                }
-                
-                data = await client.GetByteArrayAsync(url);
-            }
-
-            return new MemoryStream(data);
+            return Task.CompletedTask;
         }
 
         public override Task Play(IMediaItem mediaItem, TimeSpan startAt, TimeSpan? stopAt = null)

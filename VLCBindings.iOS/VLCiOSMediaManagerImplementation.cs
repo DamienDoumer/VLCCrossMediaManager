@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Text;
+
+using Foundation;
 using LibVLCSharp.Shared;
 using MediaManager;
-using MediaManager.Library;
 using MediaManager.Media;
 using MediaManager.Notifications;
 using MediaManager.Platforms.Apple.Media;
+using MediaManager.Platforms.Apple.Notifications;
 using MediaManager.Playback;
 using MediaManager.Player;
 using MediaManager.Volume;
+using UIKit;
 
-namespace MediaManagerAndVLC.iOS.VLCMediaManager
+namespace VLCBindings.iOS
 {
     public class VLCiOSMediaManagerImplementation : MediaManagerBase, IMediaManager<LibVLCSharp.Shared.MediaPlayer>
     {
@@ -60,6 +67,8 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
         {
             get
             {
+                //NOte we pass our custom VLCVolumeManager, instead of the default one, because using the default one
+                //Will cause the AVPlayer to be used to play instead of VLC
                 if (_volume == null)
                     _volume = new VLCVolumeManager();
                 return _volume;
@@ -95,8 +104,6 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
         /// </summary>
         void AttachPlayerEvents()
         {
-            Player.Muted += PlayerOnMuted;
-            Player.Unmuted += PlayerOnUnmuted;
             Player.TimeChanged += OnTimeChanged;
             Player.EncounteredError += OnEncounteredError;
             Player.PositionChanged += OnPositionChanged;
@@ -105,39 +112,10 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
             Player.Paused += OnPaused;
             Player.PausableChanged += OnPausableChanged;
             Player.Playing += OnPlaying;
-            Player.MediaChanged += OnMediaChanged;
-            Player.Stopped += OnStopped;
-            Player.Buffering += OnBuffering;
         }
 
-        private void OnBuffering(object sender, MediaPlayerBufferingEventArgs e)
+        internal void DettachPlayerEvents()
         {
-            _state = MediaPlayerState.Buffering;
-        }
-
-        private void OnStopped(object sender, EventArgs e)
-        {
-            _state = MediaPlayerState.Stopped;
-        }
-
-        private void OnMediaChanged(object sender, MediaPlayerMediaChangedEventArgs e)
-        {
-            //VLCiOSMediaPlayer.Initialize();
-            //VLCiOSMediaPlayer.Dispose();
-            //_mediaPlayer = null;
-            //var p = MediaPlayer;
-            MediaItemChanged?.Invoke(Player, new MediaItemEventArgs(new MediaItem
-            {
-                MediaUri = e.Media.Mrl,
-            }));
-            //_mediaPlayer = null;
-            //var p = MediaPlayer;
-        }
-
-        void DettachPlayerEvents()
-        {
-            Player.Muted -= PlayerOnMuted;
-            Player.Unmuted -= PlayerOnUnmuted;
             Player.TimeChanged -= OnTimeChanged;
             Player.EncounteredError -= OnEncounteredError;
             Player.PositionChanged -= OnPositionChanged;
@@ -146,45 +124,29 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
             Player.Paused -= OnPaused;
             Player.PausableChanged -= OnPausableChanged;
             Player.Playing -= OnPlaying;
-            Player.MediaChanged -= OnMediaChanged;
-            Player.Stopped -= OnStopped;
-            Player.Buffering -= OnBuffering;
         }
 
-        private void PlayerOnUnmuted(object sender, EventArgs e)
-        {
-            var m = Player.Mute;
-        }
-
-        private void PlayerOnMuted(object sender, EventArgs e)
-        {
-            var m = Player.Mute;
-        }
 
         #region Player events
         private void OnEncounteredError(object sender, EventArgs e)
         {
-            _state = MediaPlayerState.Failed;
             MediaItemFailed?.Invoke(Player, new MediaItemFailedEventArgs(Queue.Current, 
                 new Exception(e.ToString()), "VLC Player failed to play item."));
         }
 
         protected virtual void OnPausableChanged(object sender, MediaPlayerPausableChangedEventArgs e)
         {
-            ;
             //throw new NotImplementedException();
         }
 
         private void OnPlaying(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
-            _state = MediaPlayerState.Playing;
         }
 
         protected virtual void OnPaused(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
-            _state = MediaPlayerState.Paused;
         }
 
         protected virtual void OnEndReached(object sender, EventArgs e)
@@ -195,7 +157,6 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
         protected virtual void OnLengthChanged(object sender, MediaPlayerLengthChangedEventArgs e)
         {
             // throw new NotImplementedException();
-            ;
         }
 
         private void OnPositionChanged(object sender, LibVLCSharp.Shared.MediaPlayerPositionChangedEventArgs e)
@@ -213,7 +174,6 @@ namespace MediaManagerAndVLC.iOS.VLCMediaManager
 
         public override void Dispose()
         {
-            DettachPlayerEvents();
             base.Dispose();
         }
     }

@@ -5,13 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0CB28172-DC58-4A23-9CBB-4EAA4D653AAE}</ProjectGuid>
+    <ProjectGuid>{872B87E6-0AC3-4F07-95DB-3E092A0F7BF5}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <TemplateGuid>{6143fdea-f3c2-4a09-aafa-6e230626515e}</TemplateGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>MediaManagerAndVLC.iOS</RootNamespace>
+    <RootNamespace>VLCBindings.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>MediaManagerAndVLC.iOS</AssemblyName>
+    <AssemblyName>VLCBindings.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <ProvisioningType>automatic</ProvisioningType>
@@ -27,6 +27,8 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>Apple Development: Damien Hera (JB7S97R4KY)</CodesignKey>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -46,11 +48,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchArch>ARM64</MtouchArch>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>Apple Development: Damien Hera (JB7S97R4KY)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchLink>None</MtouchLink>
     <MtouchInterpreter>-all</MtouchInterpreter>
+    <CodesignProvision>VS: WildCard Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -63,13 +66,13 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="VLCCrossMediaManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="VLCMediaManager\VLCCrossMediaManager.cs" />
-    <Compile Include="VLCMediaManager\VLCiOSMediaManagerImplementation.cs" />
-    <Compile Include="VLCMediaManager\VLCiOSMediaPlayer.cs" />
-    <Compile Include="VLCMediaManager\VLCiOSNotificationManager.cs" />
-    <Compile Include="VLCMediaManager\VLCVolumeManager.cs" />
+    <Compile Include="VLCiOSMediaPlayer.cs" />
+    <Compile Include="VLCiOSMediaManagerImplementation.cs" />
+    <Compile Include="VLCiOSNotificationManager.cs" />
+    <Compile Include="VLCVolumeManager.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,18 +149,19 @@
     <PackageReference Include="VideoLAN.LibVLC.iOS">
       <Version>3.3.10</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
-    <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
-    <PackageReference Include="System.Net.Http">
-      <Version>4.3.4</Version>
-    </PackageReference>
+    <PackageReference Include="Xamarin.Forms" Version="4.8.0.1451" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\MediaManagerAndVLC\MediaManagerAndVLC.csproj">
-      <Project>{C31AA7E5-669B-4DC7-9C04-C0DE20B1417D}</Project>
-      <Name>MediaManagerAndVLC</Name>
+    <ProjectReference Include="..\VLCBindings\VLCBindings.csproj">
+      <Project>{11B2DFA8-4804-4B70-9F36-C563095E75E4}</Project>
+      <Name>VLCBindings</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

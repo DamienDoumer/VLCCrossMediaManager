@@ -3,7 +3,7 @@ using MediaManager;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace MediaManagerAndVLC
+namespace VLCBindings
 {
     public partial class App : Application
     {
@@ -11,9 +11,9 @@ namespace MediaManagerAndVLC
 
         public App(IMediaManager mediaManager)
         {
-            _mediaManager = mediaManager;
             InitializeComponent();
 
+            _mediaManager = mediaManager;
             MainPage = new MainPage(_mediaManager);
         }
 
