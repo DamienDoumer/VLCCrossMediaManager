@@ -120,7 +120,10 @@ namespace VLCBindings.iOS
         public override Task Play(IMediaItem mediaItem)
         {
             InvokeBeforePlaying(this, new MediaPlayerEventArgs(mediaItem, this));
-            Player.Play(new Media(_libVLC, new Uri(mediaItem.MediaUri)));
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                Player.Play(new Media(_libVLC, new Uri(mediaItem.MediaUri)));
+            });
             //Player = new LibVLCSharp.Shared.MediaPlayer(new Media);
             InvokeAfterPlaying(this, new MediaPlayerEventArgs(mediaItem, this));
             return Task.CompletedTask;

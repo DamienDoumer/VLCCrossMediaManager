@@ -16,7 +16,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -96,7 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VLCBindings\VLCBindings.csproj">
-      <Project>{11B2DFA8-4804-4B70-9F36-C563095E75E4}</Project>
+      <Project>{E486C94E-5061-40B5-9A3A-432BA84AE9EB}</Project>
       <Name>VLCBindings</Name>
     </ProjectReference>
   </ItemGroup>
