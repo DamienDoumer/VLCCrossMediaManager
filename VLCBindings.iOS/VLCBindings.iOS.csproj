@@ -66,13 +66,13 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="VLCCrossMediaManager.cs" />
+    <Compile Include="VLCMediaManager\VLCCrossMediaManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="VLCiOSMediaPlayer.cs" />
-    <Compile Include="VLCiOSMediaManagerImplementation.cs" />
-    <Compile Include="VLCiOSNotificationManager.cs" />
-    <Compile Include="VLCVolumeManager.cs" />
+    <Compile Include="VLCMediaManager\VLCiOSMediaPlayer.cs" />
+    <Compile Include="VLCMediaManager\VLCiOSMediaManagerImplementation.cs" />
+    <Compile Include="VLCMediaManager\VLCiOSNotificationManager.cs" />
+    <Compile Include="VLCMediaManager\VLCVolumeManager.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -159,6 +159,7 @@
       <Name>VLCBindings</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties TriggeredFromHotReload="False" />
